@@ -58,13 +58,14 @@ export class TransacationService {
     );
   }
 
-  fetchAllTransacation(): Observable<TransacationPojo[]> {
+  addTransacation(to: string, amount: number, belongTo: number): Observable<TransacationPojo[]> {
     const that = this;
-    return this.http.post(API.Query, {
-      func: 'queryAllTransacation',
+    return this.http.post(API.Invoke, {
+      func: 'addTransacation',
+      parameters: [this.getUsername(), to, amount, belongTo]
     }, httpOptions).pipe(
-      tap((res: TransacationPojo[]) => this.log(`fetchDebit ${res[0]}`)),
-      catchError(this.handleError<TransacationPojo[]>('fetchDebit', []))
+      tap((res: any) => this.log(`addTransacation ${res[0]}`)),
+      catchError(this.handleError<any>('addTransacation', []))
     );
   }
 

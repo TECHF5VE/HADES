@@ -88,8 +88,18 @@ export class PoolComponent implements OnInit {
 
   }
 
-  lendMoney(pojo: DebitInfoPojo) {
-    // this.transacationService.fetchTransacation
-  }
+  async lendMoney(pojo: DebitInfoPojo, amount: number) {
+    await this.transacationService.addTransacation(pojo.fundRaiserID,
+       amount < pojo.fundRaiserRest ? amount : pojo.fundRaiserRest, pojo.id).toPromise();
 
+    if (pojo.fundRaiserRest <= amount) {
+      await this.debiteService.raiseDebit(pojo.fundRaiserID, 0, pojo.fundOvertimeTime, 1, 0)
+      .subscribe(res => {
+        console.log(res);
+      });
+      _.remove(this.displayList, pojo);
+    } else {
+      pojo.fundRaiserRest -= amount;
+    }
+  }
 }

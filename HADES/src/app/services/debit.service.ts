@@ -57,11 +57,11 @@ export class DebitService {
     );
   }
 
-  raiseDebit(fundRaiserID: string, fundRaiseRest: number, fundOvertimeTime: number, validation: number, repaid: number): Observable<any> {
+  raiseDebit(fundRaiserID: string, fundRaiseRest: number, fundOvertimeTime: string, validation: number, repaid: number): Observable<any> {
     const that = this;
     return this.http.post(API.Invoke, {
       func: 'raiseDebit',
-      parameters: [0, fundRaiserID, fundRaiseRest, fundOvertimeTime.toString(10), validation, repaid]
+      parameters: [0, fundRaiserID, fundRaiseRest, fundOvertimeTime, validation, repaid]
     }, httpOptions).pipe(
       tap((res: any) => this.log(`raiseDebit ${res[0]}`)),
       catchError(this.handleError<any>('raiseDebit', []))

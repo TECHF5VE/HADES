@@ -32,19 +32,19 @@ export class UserInfoPojo {
 }
 
 export class DebitInfoPojo {
-  id = '';
+  id = 0;
   fundRaiserID = '';
-  fundRaiserRest = '';
- sequanceID = 0;
+  fundRaiserRest = 0.0;
+  sequanceID = 0;
   fundOvertimeTime = '';
-  validation = '';
-  repaid = '';
+  validation = 0;
+  repaid = 0;
 }
 
 export class TransacationPojo {
   id = '';
   from = '';
   to = '';
-  amount = '';
-  belongTo = '';
+  amount = 0;
+  belongTo = 0;
 }
