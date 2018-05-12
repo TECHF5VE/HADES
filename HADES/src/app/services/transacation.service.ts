@@ -3,7 +3,7 @@
  * Created Date: Saturday May 12th 2018
  * Author: huisama
  * -----
- * Last Modified: Sat May 12 2018
+ * Last Modified: Sun May 13 2018
  * Modified By: huisama
  * -----
  * Copyright (c) 2018 Hui
@@ -11,10 +11,16 @@
 
 import { Injectable } from '@angular/core';
 import { BlockChainService } from './block-chain.service';
-import { TransacationPojo, BlockType } from '../entities/block-pojo';
-import { HttpClient } from "@angular/common/http";
+import { TransacationPojo, BlockType, DebitInfoPojo } from '../entities/block-pojo';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as API from '../share/api';
-import { Observable } from "rxjs/index";
+import { Observable, of } from 'rxjs/index';
+import { catchError, tap } from 'rxjs/internal/operators';
+
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable()
 export class TransacationService {
@@ -42,6 +48,40 @@ export class TransacationService {
   }*/
 
   fetchTransacation(): Observable<TransacationPojo[]> {
-    // TODO
+    const that = this;
+    return this.http.post(API.Query, {
+      func: 'queryTransacation',
+      parameters: [that.getUsername()]
+    }, httpOptions).pipe(
+      tap((res: TransacationPojo[]) => this.log(`fetchDebit ${res[0]}`)),
+      catchError(this.handleError<TransacationPojo[]>('fetchDebit', []))
+    );
+  }
+
+  private getUsername(): string {
+    try {
+      const user = sessionStorage.getItem('user');
+      if (user) {
+        return JSON.parse(user)['name'];
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+    return '';
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      console.error(error); // log to console instead
+      this.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+  private log(message: string) {
+    console.log('UserInfoService: ' + message);
   }
 }

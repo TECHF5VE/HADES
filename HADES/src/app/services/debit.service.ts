@@ -3,7 +3,7 @@
  * Created Date: Saturday May 12th 2018
  * Author: huisama
  * -----
- * Last Modified: Sat May 12 2018
+ * Last Modified: Sun May 13 2018
  * Modified By: huisama
  * -----
  * Copyright (c) 2018 Hui
@@ -12,10 +12,10 @@
 import { Injectable } from '@angular/core';
 import { BlockChainService } from './block-chain.service';
 import { DebitInfoPojo, BlockType } from '../entities/block-pojo';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as API from '../share/api';
-import { Observable, of } from "rxjs/index";
-import { catchError, tap } from "rxjs/internal/operators";
+import { Observable, of } from 'rxjs/index';
+import { catchError, tap } from 'rxjs/internal/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -56,6 +56,19 @@ export class DebitService {
       catchError(this.handleError<DebitInfoPojo[]>('fetchDebit', []))
     );
   }
+
+  raiseDebit(fundRaiserID: string, fundRaiseRest: number, fundOvertimeTime: number, validation: number, repaid: number): Observable<any> {
+    const that = this;
+    // Todo: calc timestamp
+    return this.http.post(API.Query, {
+      func: 'raiseDebit',
+      parameters: [fundRaiserID, fundRaiseRest, 0, validation, repaid]
+    }, httpOptions).pipe(
+      tap((res: any) => this.log(`raiseDebit ${res[0]}`)),
+      catchError(this.handleError<any>('raiseDebit', []))
+    );
+  }
+
 
   private getUsername(): string {
     try {
