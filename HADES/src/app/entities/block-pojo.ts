@@ -9,18 +9,18 @@
  * Copyright (c) 2018 Hui
  */
 
-enum BlockType {
+export enum BlockType {
     User = 0,
     Debit = 1,
     Transacation = 2,
 }
 
 export class BlockPojo {
-    type: BlockType.User;
+    type: BlockType = BlockType.User;
 
     userInfo: UserInfoPojo;
     debitInfo: DebitInfoPojo;
-    TransacationInfo: TransacationPojo; 
+    transacationInfo: TransacationPojo;
 }
 
 export class UserInfoPojo {

@@ -1,5 +1,5 @@
 /*
- * File: /src/app/services/debit.service.ts
+ * File: /src/app/services/transacation.service.ts
  * Created Date: Saturday May 12th 2018
  * Author: huisama
  * -----
@@ -12,30 +12,30 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { BlockChainService } from './block-chain.service';
-import { DebitInfoPojo, BlockType } from '../entities/block-pojo';
+import { TransacationPojo, BlockType } from '../entities/block-pojo';
 
 @Injectable()
-export class DebitService {
+export class TransacationService {
     constructor(
         public httpService: Http,
         public blockChainService: BlockChainService,
     ) { }
 
-    private _debitBlockChain: DebitInfoPojo[] = [];
+    private _transacationChain: TransacationPojo[] = [];
 
-
-    public get debitBlockChain(): DebitInfoPojo[] {
-        return this._debitBlockChain;
+    public get debitBlockChain(): TransacationPojo[] {
+        return this._transacationChain;
     }
 
     async sync() {
         await this.blockChainService.sync();
 
-        this._debitBlockChain = [];
+        this._transacationChain = [];
         this.blockChainService.blockChain.forEach(block => {
-            if (block.type === BlockType.Debit) {
-                this._debitBlockChain.push(block.debitInfo);
+            if (block.type === BlockType.Transacation) {
+                this._transacationChain.push(block.transacationInfo);
             }
         });
     }
+
 }

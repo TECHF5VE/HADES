@@ -11,20 +11,32 @@
 
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { UserInfoPojo } from '../entities/user-info';
-
+import { BlockChainService } from '../services/block-chain.service';
+import { BlockPojo, UserInfoPojo, BlockType } from '../entities/block-pojo';
 
 @Injectable()
 export class UserInfoService {
-
-    userInfos: UserInfoPojo[] = [];
-
     constructor(
-        public httpService: Http
-    ) {}
+        public httpService: Http,
+        public blockChainService: BlockChainService,
+    ) { }
 
-    async syncData() {
-        // this.httpService.get()
+    private _userInfoBlockChain: UserInfoPojo[] = [];
+
+    public get userInfoBlockChain(): UserInfoPojo[] {
+        return this._userInfoBlockChain;
+    }
+
+    async sync() {
+        await this.blockChainService.sync();
+
+        this._userInfoBlockChain = [];
+
+        this.blockChainService.blockChain.forEach(block => {
+            if (block.type === BlockType.User) {
+                this.userInfoBlockChain.push(block.userInfo);
+            }
+        });
     }
 
     async addUserInfo(userInfo: UserInfoPojo) {
