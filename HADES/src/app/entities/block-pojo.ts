@@ -34,8 +34,8 @@ export class UserInfoPojo {
 export class DebitInfoPojo {
   id = '';
   fundRaiserID = '';
-  fundRaiserRest = 0.0;
-  sequanceID = 0;
+  fundRaiserRest = '';
+ sequanceID = 0;
   fundOvertimeTime = '';
   validation = '';
   repaid = '';

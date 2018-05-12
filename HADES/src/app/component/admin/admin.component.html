@@ -6,44 +6,48 @@
     </mat-card>
   </div>-->
 
-  <div class="col-md-6 card-left-wrapper">
+  <!--<div class="col-md-6 card-left-wrapper">
     <mat-card class="card">
-      <!--FIXME 交易记录-->
+      &lt;!&ndash;交易记录&ndash;&gt;
       <h4 class="text-center">交易记录</h4>
       <table class="table">
         <thead>
         <tr>
           <th>#</th>
+          <th>from</th>
+          <th>to</th>
+          <th>amount</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let debit of debits; let i = index;">
+        <tr *ngFor="let tran of trans; let i = index;">
           <td>{{i+1}}</td>
+          <td>{{tran.from}}</td>
+          <td>{{tran.to}}</td>
+          <td>{{tran.amount}}</td>
         </tr>
         </tbody>
       </table>
     </mat-card>
-  </div>
+  </div>-->
 
+  <!--FIXME-->
   <div class="col-md-6 card-left-wrapper">
     <mat-card class="card">
-      <!--FIXME 通知-->
-      <h4 class="text-center">贷款通知</h4>
+      <h4 class="text-center">我的申请</h4>
       <table class="table">
         <thead>
         <tr>
           <th>#</th>
-          <th>申请人</th>
-          <th>金额</th>
-          <th>状态</th>
+          <th>amount</th>
+          <th>state</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let debit of debits; let i = index;">
           <td>{{i+1}}</td>
-          <td>{{debit.fundRaiserID}}</td>
-          <td>{{debit.fundRaiseRest}}</td>
-          <td>Test</td>
+          <td>{{debit.fundRaiserRest}}</td>
+          <td>UnKnown</td>
         </tr>
         </tbody>
       </table>
