@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatHorizontalStepper } from "@angular/material";
-import { UserInfoService } from "../../services/userinfo.service";
+import { MatHorizontalStepper } from '@angular/material';
+import { UserInfoService } from '../../services/userinfo.service';
 
 @Component({
   selector: 'app-register',

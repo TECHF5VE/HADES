@@ -12,12 +12,12 @@
 import { Injectable } from '@angular/core';
 
 import { BlockPojo } from '../entities/block-pojo';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class BlockChainService {
 
-  constructor(public httpService: HttpClient,) {
+  constructor(public httpService: HttpClient) {
 
   }
 

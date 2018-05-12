@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DebitInfoPojo, TransacationPojo } from "../../entities/block-pojo";
-import { DebitService } from "../../services/debit.service";
-import { TransacationService } from "../../services/transacation.service";
+import { DebitInfoPojo, TransacationPojo } from '../../entities/block-pojo';
+import { DebitService } from '../../services/debit.service';
+import { TransacationService } from '../../services/transacation.service';
 
 @Component({
   selector: 'app-admin',
@@ -34,7 +34,7 @@ export class AdminComponent implements OnInit {
       },
       tooltip: {
         trigger: 'item',
-        formatter: "{a} <br/>{b} : {c} ({d}%)"
+        formatter: '{a} <br/>{b} : {c} ({d}%)'
       },
       legend: {
         orient: 'vertical',
@@ -80,9 +80,18 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // TODO
   initInform() {
-
+    const that = this;
+    this.transacationService.fetchTransacation().subscribe(res => {
+      try {
+        console.log(res);
+        if (res && res['success'] && res['data']) {
+          that.trans = res['data'] as TransacationPojo[];
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    });
   }
 
 }
