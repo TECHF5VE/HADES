@@ -59,10 +59,9 @@ export class DebitService {
 
   raiseDebit(fundRaiserID: string, fundRaiseRest: number, fundOvertimeTime: number, validation: number, repaid: number): Observable<any> {
     const that = this;
-    // Todo: calc timestamp
-    return this.http.post(API.Query, {
+    return this.http.post(API.Invoke, {
       func: 'raiseDebit',
-      parameters: [fundRaiserID, fundRaiseRest, 0, validation, repaid]
+      parameters: [0, fundRaiserID, fundRaiseRest, fundOvertimeTime.toString(10), validation, repaid]
     }, httpOptions).pipe(
       tap((res: any) => this.log(`raiseDebit ${res[0]}`)),
       catchError(this.handleError<any>('raiseDebit', []))

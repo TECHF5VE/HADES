@@ -1,10 +1,7 @@
 /*
-Copyright Ziggurat Corp. 2017 All Rights Reserved.
-
-SPDX-License-Identifier: Apache-2.0
+Copyright Wayne Tomas Tech F5VE. 2017 All Rights Reserved.
 */
 
-// Asset: a demo chaincode for zigledger
 
 package main
 
@@ -31,6 +28,8 @@ const (
 	QueryUser			string = "queryUser"
 	RaiseDebit			string = "raiseDebit"
 	ReadDebit			string = "readDebit"
+	DealTransaction     string = "dealTransaction"
+	QueryTransaction	string = "queryTransaction"
 )
 
 // Prefixes for user and asset separately
@@ -56,14 +55,24 @@ type UserInfoPojo struct {
 	IDC		string	   `json:"idc"`
 	PhoneNum string `json:"phoneNum"`
 	Address string `json:"address"`
+	Password string `json:"password"`
 }
 
 type DebitInfoPojo struct {
 	ID string `json:"id"`
 	FundRaiserID string `json:"fundRaiserID"`
-    FundRaiseRest string `json:"fundRaiseRest"`;
-    FundOvertimeTime string `json:"fundOvertimeTime"`;
-	Validation string `json:"validation"`;	
+    FundRaiseRest string `json:"fundRaiseRest"`
+    FundOvertimeTime string `json:"fundOvertimeTime"`
+	Validation string `json:"validation"`
+	Repaid string `json:"repaid"`
+}
+
+type TransacationPojo struct {
+	ID string `json:"id"`
+	From string `json:"from"`
+	To string `json:"to"`
+	Amount string `json:"amount"`
+	BelongTo string `json:"belongto"`
 }
 
 func main() {
@@ -86,14 +95,13 @@ func (t *assetChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	
 	switch function {
 	case AddUser:
-		if len(args) != 3 {
+		if len(args) != 4 {
 			return shim.Error("put operation must include 3 arguements")
 		}
 		// args[0]: user name
 		// args[1]: user IDC
 		// args[2]: user Phone Number
-		// args[3]: user Loan
-		// args[4]: user Address
+		// args[3]: user password
 		// note: user address could be revealed from private key provided when invoking
 		return t.addUser(stub, args)
 	case QueryUser:
@@ -103,7 +111,7 @@ func (t *assetChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 		// args[0]: user name
 		return t.queryUser(stub, args)
 	case RaiseDebit:
-		if len(args) != 3 {
+		if len(args) != 6 {
 			return shim.Error("Incorrect number of arguments. Expecting 1.")
 		}
 		// args[0]: FundRaiserID
@@ -122,11 +130,13 @@ func (t *assetChaincode) addUser(stub shim.ChaincodeStubInterface, args []string
 	var new_name string
 	var new_idc string
 	var new_phoneNum string
+	var new_password string
 	var err error
 
 	new_name = args[0]
 	new_idc = args[1]
 	new_phoneNum = args[2]
+	new_password = args[3]
 	// get user's address
 	new_add, err := stub.GetSender()
 	if err != nil {
@@ -146,7 +156,7 @@ func (t *assetChaincode) addUser(stub shim.ChaincodeStubInterface, args []string
 
 	// register user
 	//user := &user{new_name, new_idc,new_phoneNum, new_userLoan,new_add}
-	UserInfoPojo := &UserInfoPojo{new_name, new_idc,new_phoneNum, new_add}
+	UserInfoPojo := &UserInfoPojo{new_name, new_idc,new_phoneNum, new_add,new_password}
 	userJSONasBytes, err := json.Marshal(UserInfoPojo)
 	if err != nil {
 		return shim.Error(err.Error())
@@ -180,14 +190,16 @@ func (t *assetChaincode) raiseDebit(stub shim.ChaincodeStubInterface, args []str
 	var new_fundRaiseRest string
 	var new_fundOvertimeTime string
 	var new_validation string
+	var new_repaid string
 	var err_0 error
 	var err_1 error
 
 	new_id = args[0]
 	new_fundRaiserID = args[1]
 	new_fundRaiseRest = args[2]
-	new_fundOvertimeTime = "1"
-	new_validation = "false"
+	new_fundOvertimeTime = args[3]
+	new_validation = args[4]
+	new_repaid = args[5]
 	
 	//check if debit has existed
 	debit_key := DebitPrefix + new_id
@@ -210,7 +222,7 @@ func (t *assetChaincode) raiseDebit(stub shim.ChaincodeStubInterface, args []str
 		return shim.Error("This funder raiser doesn't exist: " + new_fundRaiserID)
 	}
 	//register this debit
-	DebitInfoPojo := &DebitInfoPojo{new_id, new_fundRaiserID,new_fundRaiseRest,new_fundOvertimeTime, new_validation}
+	DebitInfoPojo := &DebitInfoPojo{new_id, new_fundRaiserID,new_fundRaiseRest,new_fundOvertimeTime, new_validation,new_repaid}
 	debitJSONasBytes, err := json.Marshal(DebitInfoPojo)
 	if err != nil {
 		return shim.Error(err.Error())
