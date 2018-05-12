@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatHorizontalStepper } from "@angular/material";
-import { UserInfoService } from "../../services/userinfo.service";
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { MatHorizontalStepper } from '@angular/material';
+import { UserInfoService } from '../../services/userinfo.service';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +10,7 @@ import { UserInfoService } from "../../services/userinfo.service";
 export class RegisterComponent implements OnInit {
 
   @ViewChild('stepper') stepper: MatHorizontalStepper;
+  @ViewChild('photoInput') photoInput: ElementRef;
 
   isFirstLoading = false;
   isSecondLoading = false;
@@ -52,10 +53,20 @@ export class RegisterComponent implements OnInit {
 
   getUserID() {
     // todo
+    const elem = this.photoInput.nativeElement as any;
+    elem.click();
+  }
+
+  photoChanged() {
+    const elem = this.photoInput.nativeElement as any;
+    const reader = new FileReader();
+    reader.readAsDataURL(elem.files[0]);
+    reader.onload = () =>
+        // console.log(reader.result);
+        this.UserPic = reader.result;
   }
 
   getUserPic() {
-    // todo
   }
 
   validateSecond() {
