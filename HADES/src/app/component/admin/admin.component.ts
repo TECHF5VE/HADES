@@ -22,7 +22,7 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
     // this.initPool();
     this.initDeal();
-    this.initInform();
+    // this.initInform();
   }
 
   initPool() {

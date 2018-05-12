@@ -4,12 +4,17 @@
       <thead>
       <tr>
         <th>#</th>
-        <th></th>
+        <th>amount</th>
+        <th>time</th>
+        <th>status</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let debit of debits; let i = index;">
         <td>{{i+1}}</td>
+        <td>{{debit.fundRaiserRest}}</td>
+        <td>{{debit.fundOvertimeTime}}</td>
+        <td></td>
       </tr>
       </tbody>
     </table>
