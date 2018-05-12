@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from "@angular/forms";
-import { HttpModule } from "@angular/http";
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
 import { IndexComponent } from './component/index/index.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { CollapseModule } from "ngx-bootstrap/collapse";
@@ -40,4 +40,5 @@ import { MatButtonModule, MatCardModule, MatProgressSpinnerModule, MatStepperMod
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
