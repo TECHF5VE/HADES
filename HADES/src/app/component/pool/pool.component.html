@@ -19,11 +19,17 @@
         <thead>
         <tr>
           <th>#</th>
+          <th>贷款人</th>
+          <th>剩余需借</th>
+          <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th></th>
+        <tr *ngFor="let item of this.displayList; let i=index">
+          <th>{{i + 1}}</th>
+          <th>{{item.fundRaiserID}}</th>
+          <th>{{item.fundRaiserRest}}</th>
+          <th><button class="btn btn-success" (click)="lendMoney(item)">放款</button></th>                 
         </tr>
         </tbody>
       </table>

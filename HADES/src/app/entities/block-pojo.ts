@@ -3,7 +3,7 @@
  * Created Date: Saturday May 12th 2018
  * Author: huisama
  * -----
- * Last Modified: Sat May 12 2018
+ * Last Modified: Sun May 13 2018
  * Modified By: huisama
  * -----
  * Copyright (c) 2018 Hui
@@ -34,7 +34,8 @@ export class UserInfoPojo {
 export class DebitInfoPojo {
   id = '';
   fundRaiserID = '';
-  fundRaiseRest = '';
+  fundRaiserRest = 0.0;
+  sequanceID = 0;
   fundOvertimeTime = '';
   validation = '';
   repaid = '';

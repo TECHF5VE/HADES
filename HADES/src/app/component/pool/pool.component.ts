@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { DebitService } from '../../services/debit.service';
+import { TransacationService } from '../../services/transacation.service';
+
+import * as _ from 'lodash';
+import { DebitInfoPojo } from '../../entities/block-pojo';
 
 @Component({
   selector: 'app-pool',
@@ -7,12 +12,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PoolComponent implements OnInit {
 
-  options: any;
+  // options: any;
 
-  constructor() {
+  constructor(
+    private debiteService: DebitService,
+    private transacationService: TransacationService,
+  ) {
   }
 
-  ngOnInit() {
+  displayList: DebitInfoPojo[] = [];
+
+  async ngOnInit() {
     // this.options = {
     //   title: {
     //     text: '资金池',
@@ -51,6 +61,35 @@ export class PoolComponent implements OnInit {
     //     }
     //   ]
     // };
+
+
+    try {
+      this.displayList = [];
+
+      const result: any = await this.debiteService.fetchDebit().toPromise();
+      const json = result.data;
+      const group = _.groupBy(result.data, 'fundOvertimeTime');
+
+      const values = Object.values(group);
+
+      const arr: DebitInfoPojo[] = [];
+      for (const g of values) {
+        const max = _.maxBy(g, e => e.sequanceID);
+        // const max = g.sort((a, b) => a.sequanceID < b.sequanceID ? -1 : 1)[0];
+        if (max.validation === 1 && max.fundRaiserRest > 0) {
+          arr.push(max);
+        }
+      }
+
+      this.displayList = arr;
+    } catch (e) {
+      console.log(e);
+    }
+
+  }
+
+  lendMoney(pojo: DebitInfoPojo) {
+    // this.transacationService.fetchTransacation
   }
 
 }
