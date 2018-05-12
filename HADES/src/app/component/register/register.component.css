@@ -1,0 +1,12 @@
+.container-fluid {
+  padding-top: 50px;
+  position: relative;
+}
+
+.card {
+  margin-top: 50px;
+}
+
+.spinner {
+  margin: 0 auto;
+}

@@ -1,0 +1,27 @@
+.container {
+  padding-top: 50px;
+  position: relative;
+}
+
+.card {
+  margin-top: 50px;
+  padding-top: 50px;
+}
+
+.login-btn {
+  background-color: #6BC676;
+  color: white;
+  width: 100%;
+}
+
+.login-list {
+  margin-top: 40px;
+}
+
+.face-login {
+  width: 100px;
+}
+
+.login-list-item {
+  text-align: center;
+}

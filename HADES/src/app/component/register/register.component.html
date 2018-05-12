@@ -1,0 +1,63 @@
+<div class="container-fluid">
+  <mat-card class="col-md-8 col-md-offset-2 card">
+    <mat-horizontal-stepper [linear]="true" #stepper>
+      <mat-step [editable]="false">
+        <form role="form" class="form-horizontal">
+          <ng-template matStepLabel>个人信息</ng-template>
+          <div class="form-group">
+            <label for="username" class="col-sm-2 col-sm-offset-2 control-label">用户名<span
+              class="text-danger">*</span></label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="username" placeholder="Name" name="username">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password" class="col-sm-2 col-sm-offset-2 control-label">密码<span
+              class="text-danger">*</span></label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="password" placeholder="Password" name="password">
+            </div>
+          </div>
+          <div class="text-center">
+            <button mat-button (click)="validateFirst();" *ngIf="!isFirstLoading">下一步</button>
+            <mat-progress-spinner
+              *ngIf="isFirstLoading"
+              class="spinner"
+              color="primary"
+              diameter="36"
+              mode="indeterminate">
+            </mat-progress-spinner>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [editable]="false">
+        <form role="form">
+          <ng-template matStepLabel>实名认证</ng-template>
+          <div class="form-group">
+            <!--todo 身份证照片-->
+          </div>
+          <div class="form-group">
+            <!--todo 人脸照片-->
+          </div>
+          <div class="text-center">
+            <button mat-button (click)="validateSecond();" *ngIf="!isSecondLoading">下一步</button>
+            <mat-progress-spinner
+              *ngIf="isSecondLoading"
+              class="spinner"
+              color="primary"
+              diameter="36"
+              mode="indeterminate">
+            </mat-progress-spinner>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [editable]="false">
+        <ng-template matStepLabel>注册完成</ng-template>
+        注册成功!
+        <div class="text-center">
+          <button mat-button routerLink="/login">完成</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card>
+</div>

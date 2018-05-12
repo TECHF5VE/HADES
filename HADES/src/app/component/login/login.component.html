@@ -1,0 +1,30 @@
+<div class="container">
+  <mat-card class="col-md-6 col-md-offset-3 card">
+    <form role="form">
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon" id="username">
+            <i class="glyphicon glyphicon-user"></i>
+          </span>
+          <input type="text" class="form-control" name="username" placeholder="用户名" aria-describedby="username" [(ngModel)]="username">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon" id="password">
+            <i class="glyphicon glyphicon-lock"></i>
+          </span>
+          <input type="password" class="form-control" placeholder="密码" aria-describedby="password" name="password"
+                 [(ngModel)]="password">
+        </div>
+      </div>
+      <button mat-raised-button (click)="baseLogin();" class="login-btn">登录</button>
+
+      <div class="login-list">
+        <div class="login-list-item">
+          <img src="assets/tech-face-detection-icon.png" class="face-login" (click)="faceLogin();"/>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</div>

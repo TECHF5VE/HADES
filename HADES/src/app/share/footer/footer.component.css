@@ -1,0 +1,47 @@
+.footer {
+  padding: 5rem 0;
+  background-color: #212121;
+  color: #999;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.intro {
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #494949;
+}
+
+.intro h3 {
+  color: white;
+  position: relative;
+  padding-bottom: 2rem;
+  margin-bottom: 4rem;
+}
+
+.intro h3:after {
+  content: '';
+  background: #fff;
+  width: 20%;
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.copyright {
+  color: white;
+  text-align: center;
+}
+
+p {
+  margin-bottom: 2rem;
+}
+
+.icon {
+  background-color: white;
+  height: 3.5rem;
+  width: 3.5rem;
+  padding: 5px;
+}
