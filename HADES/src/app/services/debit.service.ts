@@ -68,7 +68,6 @@ export class DebitService {
     );
   }
 
-
   private getUsername(): string {
     try {
       const user = sessionStorage.getItem('user');

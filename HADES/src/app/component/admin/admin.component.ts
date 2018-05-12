@@ -72,12 +72,25 @@ export class AdminComponent implements OnInit {
       try {
         console.log(res);
         if (res && res['success'] && res['data']) {
-          that.debits = res['data'] as DebitInfoPojo[];
+          const debits = res['data'] as DebitInfoPojo[];
+          const tmp = [];
+          const debTime = debits.map(item => item.fundOvertimeTime);
+          for (let i = 0, len = debTime.length; i < len; i++) {
+            if (tmp.indexOf(debTime[i]) < 0) {
+              tmp.push(debTime[i]);
+              that.debits.push(debits[i]);
+            }
+          }
         }
       } catch (e) {
         console.warn(e);
       }
     });
+  }
+
+  // TODO
+  getDebitState(): string {
+    return '';
   }
 
   initInform() {
@@ -93,5 +106,4 @@ export class AdminComponent implements OnInit {
       }
     });
   }
-
 }

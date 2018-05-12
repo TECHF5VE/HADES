@@ -1,15 +1,23 @@
 <div class="container-fluid">
   <mat-card>
-    <!--TODO-->
     <table class="table">
       <thead>
       <tr>
-        <th></th>
+        <th>#</th>
+        <th>from</th>
+        <th>to</th>
+        <th>amount</th>
+        <th>time</th>
+        <th>state</th>
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td></td>
+      <tr *ngFor="let tran of trans; let i = index;">
+        <td>{{i+1}}</td>
+        <td>{{tran.from}}</td>
+        <td>{{tran.to}}</td>
+        <td>{{tran.amount}}</td>
+        <td>UnKnown</td>
       </tr>
       </tbody>
     </table>
