@@ -10,32 +10,78 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { BlockChainService } from './block-chain.service';
 import { DebitInfoPojo, BlockType } from '../entities/block-pojo';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import * as API from '../share/api';
+import { Observable, of } from "rxjs/index";
+import { catchError, tap } from "rxjs/internal/operators";
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable()
 export class DebitService {
-    constructor(
-        public httpService: Http,
-        public blockChainService: BlockChainService,
-    ) { }
+  constructor(
+    public http: HttpClient,
+    public blockChainService: BlockChainService,
+  ) {
+  }
 
-    private _debitBlockChain: DebitInfoPojo[] = [];
+  private _debitBlockChain: DebitInfoPojo[] = [];
 
+  public get debitBlockChain(): DebitInfoPojo[] {
+    return this._debitBlockChain;
+  }
 
-    public get debitBlockChain(): DebitInfoPojo[] {
-        return this._debitBlockChain;
+  /*async sync() {
+      await this.blockChainService.sync();
+
+      this._debitBlockChain = [];
+      this.blockChainService.blockChain.forEach(block => {
+          if (block.type === BlockType.Debit) {
+              this._debitBlockChain.push(block.debitInfo);
+          }
+      });
+  }*/
+
+  fetchDebit(): Observable<DebitInfoPojo[]> {
+    const that = this;
+    return this.http.post(API.Query, {
+      func: 'queryDebit',
+      parameters: [that.getUsername()]
+    }, httpOptions).pipe(
+      tap((res: DebitInfoPojo[]) => this.log(`fetchDebit ${res[0]}`)),
+      catchError(this.handleError<DebitInfoPojo[]>('fetchDebit', []))
+    );
+  }
+
+  private getUsername(): string {
+    try {
+      const user = sessionStorage.getItem('user');
+      if (user) {
+        return JSON.parse(user)['name'];
+      }
+    } catch (e) {
+      console.warn(e);
     }
+    return '';
+  }
 
-    async sync() {
-        await this.blockChainService.sync();
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
 
-        this._debitBlockChain = [];
-        this.blockChainService.blockChain.forEach(block => {
-            if (block.type === BlockType.Debit) {
-                this._debitBlockChain.push(block.debitInfo);
-            }
-        });
-    }
+      console.error(error); // log to console instead
+
+      this.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
+
+  private log(message: string) {
+    console.log('UserInfoService: ' + message);
+  }
 }

@@ -1,0 +1,6 @@
+<a *ngFor="let route of routes;"
+   routerLink="{{route.link}}"
+   [routerLinkActive]="['active']"
+   [routerLinkActiveOptions]="{exact: true}">
+  {{route.name}}
+</a>

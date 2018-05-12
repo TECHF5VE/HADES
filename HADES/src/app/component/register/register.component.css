@@ -10,3 +10,12 @@
 .spinner {
   margin: 0 auto;
 }
+
+.pic-card {
+  flex: 1;
+  margin: 10px;
+  border-radius: 3px;
+  padding-top: 10px;
+  text-align: center;
+  background: rgba(0, 0, 0, .07);
+}

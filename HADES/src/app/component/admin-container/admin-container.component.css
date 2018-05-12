@@ -1,0 +1,14 @@
+.navbar-default {
+  background-color: white;
+}
+
+.sidenav-container {
+  padding-top: 50px;
+  position: relative;
+  min-height: 100vh;
+  background-color: white;
+}
+
+.sidenav {
+  background-color: #2f3241;
+}

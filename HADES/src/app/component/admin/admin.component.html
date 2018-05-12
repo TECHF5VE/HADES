@@ -1,0 +1,52 @@
+<div class="container-fluid">
+  <!--<div class="col-md-6 card-left-wrapper">
+    <mat-card class="card">
+      &lt;!&ndash;资金池&ndash;&gt;
+      <div echarts [options]="poolOptions"></div>
+    </mat-card>
+  </div>-->
+
+  <div class="col-md-6 card-left-wrapper">
+    <mat-card class="card">
+      <!--FIXME 交易记录-->
+      <h4 class="text-center">交易记录</h4>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>#</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let debit of debits; let i = index;">
+          <td>{{i+1}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </mat-card>
+  </div>
+
+  <div class="col-md-6 card-left-wrapper">
+    <mat-card class="card">
+      <!--FIXME 通知-->
+      <h4 class="text-center">贷款通知</h4>
+      <table class="table">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>申请人</th>
+          <th>金额</th>
+          <th>状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let debit of debits; let i = index;">
+          <td>{{i+1}}</td>
+          <td>{{debit.fundRaiserID}}</td>
+          <td>{{debit.fundRaiseRest}}</td>
+          <td>Test</td>
+        </tr>
+        </tbody>
+      </table>
+    </mat-card>
+  </div>
+</div>

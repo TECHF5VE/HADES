@@ -10,32 +10,38 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { BlockChainService } from './block-chain.service';
 import { TransacationPojo, BlockType } from '../entities/block-pojo';
+import { HttpClient } from "@angular/common/http";
+import * as API from '../share/api';
+import { Observable } from "rxjs/index";
 
 @Injectable()
 export class TransacationService {
-    constructor(
-        public httpService: Http,
-        public blockChainService: BlockChainService,
-    ) { }
+  constructor(
+    public http: HttpClient,
+    public blockChainService: BlockChainService,
+  ) {
+  }
 
-    private _transacationChain: TransacationPojo[] = [];
+  private _transacationChain: TransacationPojo[] = [];
 
-    public get debitBlockChain(): TransacationPojo[] {
-        return this._transacationChain;
-    }
+  public get debitBlockChain(): TransacationPojo[] {
+    return this._transacationChain;
+  }
 
-    async sync() {
-        await this.blockChainService.sync();
+  /*async sync() {
+      await this.blockChainService.sync();
 
-        this._transacationChain = [];
-        this.blockChainService.blockChain.forEach(block => {
-            if (block.type === BlockType.Transacation) {
-                this._transacationChain.push(block.transacationInfo);
-            }
-        });
-    }
+      this._transacationChain = [];
+      this.blockChainService.blockChain.forEach(block => {
+          if (block.type === BlockType.Transacation) {
+              this._transacationChain.push(block.transacationInfo);
+          }
+      });
+  }*/
 
+  fetchTransacation(): Observable<TransacationPojo[]> {
+    // TODO
+  }
 }

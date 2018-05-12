@@ -13,7 +13,27 @@ import { HeaderComponent } from './share/header/header.component';
 import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { IndexContainerComponent } from './component/index-container/index-container.component';
-import { MatButtonModule, MatCardModule, MatProgressSpinnerModule, MatStepperModule } from "@angular/material";
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatIconModule,
+  MatProgressSpinnerModule,
+  MatSidenavModule,
+  MatStepperModule
+} from "@angular/material";
+import { AdminContainerComponent } from './component/admin-container/admin-container.component';
+import { AdminComponent } from './component/admin/admin.component';
+import { PoolComponent } from './component/pool/pool.component';
+import { BlockChainService } from "./services/block-chain.service";
+import { DebitService } from "./services/debit.service";
+import { TransacationService } from "./services/transacation.service";
+import { UserInfoService } from "./services/userinfo.service";
+import { SideBarComponent } from './share/side-bar/side-bar.component';
+import { LayoutModule } from "@angular/cdk/layout";
+import { BorrowComponent } from './component/borrow/borrow.component';
+import { ChainComponent } from './component/chain/chain.component';
+import { NgxEchartsModule } from "ngx-echarts";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -23,21 +43,37 @@ import { MatButtonModule, MatCardModule, MatProgressSpinnerModule, MatStepperMod
     HeaderComponent,
     LoginComponent,
     RegisterComponent,
-    IndexContainerComponent
+    IndexContainerComponent,
+    AdminContainerComponent,
+    AdminComponent,
+    PoolComponent,
+    SideBarComponent,
+    BorrowComponent,
+    ChainComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     CollapseModule.forRoot(),
     MatButtonModule,
     MatCardModule,
     MatStepperModule,
     MatProgressSpinnerModule,
+    MatSidenavModule,
+    LayoutModule,
+    MatIconModule,
+    NgxEchartsModule,
   ],
-  providers: [],
+  providers: [
+    BlockChainService,
+    DebitService,
+    TransacationService,
+    UserInfoService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

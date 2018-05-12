@@ -10,26 +10,24 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 
 import { BlockPojo } from '../entities/block-pojo';
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
 export class BlockChainService {
 
-    constructor(
-        public httpService: Http,
-    ) {
+  constructor(public httpService: HttpClient,) {
 
-    }
+  }
 
-    private _blockChain: BlockPojo[] = [];
+  private _blockChain: BlockPojo[] = [];
 
-    public get blockChain(): BlockPojo[] {
-        return this._blockChain;
-    }
+  public get blockChain(): BlockPojo[] {
+    return this._blockChain;
+  }
 
-    async sync() {
-        //
-    }
+  async sync() {
+    //
+  }
 }

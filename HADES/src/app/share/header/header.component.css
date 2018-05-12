@@ -1,0 +1,19 @@
+a {
+  text-decoration: none;
+  position: relative;
+}
+
+a.active {
+  color: #333 !important;
+  font-size: 15px;
+}
+
+a.active:after {
+  content: '';
+  background: #6BC676;
+  width: 70%;
+  height: 3px;
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+}

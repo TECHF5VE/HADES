@@ -1,0 +1,31 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+              aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" routerLink="/admin">HADES</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <form class="navbar-form navbar-right">
+        <button mat-raised-button color="primary" (click)="logout();">注销</button>
+      </form>
+    </div>
+  </div>
+</nav>
+<mat-sidenav-container
+  class="sidenav-container"
+  [style.marginTop.px]="mobileQuery.matches ? 50 : 0">
+  <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="true"
+               [fixedInViewport]="true" fixedTopGap="50" fixedBottomGap="0" class="sidenav">
+    <app-side-bar></app-side-bar>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

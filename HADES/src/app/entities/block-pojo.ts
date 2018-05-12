@@ -10,37 +10,40 @@
  */
 
 export enum BlockType {
-    User = 0,
-    Debit = 1,
-    Transacation = 2,
+  User = 0,
+  Debit = 1,
+  Transacation = 2,
 }
 
 export class BlockPojo {
-    type: BlockType = BlockType.User;
+  type: BlockType = BlockType.User;
 
-    userInfo: UserInfoPojo;
-    debitInfo: DebitInfoPojo;
-    transacationInfo: TransacationPojo;
+  userInfo: UserInfoPojo;
+  debitInfo: DebitInfoPojo;
+  transacationInfo: TransacationPojo;
 }
 
 export class UserInfoPojo {
-    name = '';
-    idc = '';
-    phoneNum = '';
-    address = 0;
+  name = '';
+  idc = '';
+  phoneNum = '';
+  address = '';
+  password = '';
 }
 
 export class DebitInfoPojo {
-    id = '';
-    fundRaiserID = '';
-    fundRaiseRest = '';
-    fundOvertimeTime = '';
-    validation = '';
+  id = '';
+  fundRaiserID = '';
+  fundRaiseRest = '';
+  fundOvertimeTime = '';
+  validation = '';
+  repaid = '';
 }
 
 export class TransacationPojo {
-    fromAddress = '';
-    toAddress = '';
-    amount = '';
-    belongTo = '';
+  id = '';
+  from = '';
+  to = '';
+  amount = '';
+  belongTo = '';
 }

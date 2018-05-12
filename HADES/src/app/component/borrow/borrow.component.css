@@ -1,0 +1,13 @@
+.container-fluid {
+  padding: 20px;
+  position: relative;
+}
+
+.borrow-btn {
+  font-size: 16px;
+  padding: 10px 20px;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 9999;
+}
