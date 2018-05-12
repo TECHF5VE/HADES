@@ -1,10 +1,7 @@
 /*
-Copyright Ziggurat Corp. 2017 All Rights Reserved.
-
-SPDX-License-Identifier: Apache-2.0
+Copyright Wayne Tomas Tech F5VE. 2017 All Rights Reserved.
 */
 
-// Asset: a demo chaincode for zigledger
 
 package main
 
