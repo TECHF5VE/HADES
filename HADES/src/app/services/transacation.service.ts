@@ -69,6 +69,16 @@ export class TransacationService {
     );
   }
 
+  fetchAllTransacation(): Observable<TransacationPojo[]> {
+    const that = this;
+    return this.http.post(API.Query, {
+      func: 'queryAllTransacation',
+    }, httpOptions).pipe(
+      tap((res: TransacationPojo[]) => this.log(`fetchDebit ${res[0]}`)),
+      catchError(this.handleError<TransacationPojo[]>('fetchDebit', []))
+    );
+  }
+
   private getUsername(): string {
     try {
       const user = sessionStorage.getItem('user');

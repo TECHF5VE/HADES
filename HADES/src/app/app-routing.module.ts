@@ -14,6 +14,7 @@ const indexRoutes: Routes = [
   { path: 'index', component: IndexComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: '**', redirectTo: 'index', pathMatch: 'full' }
 ];
 
 const adminRoutes: Routes = [

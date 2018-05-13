@@ -82,7 +82,7 @@ export class RegisterComponent implements OnInit {
     this.isSecondLoading = true;
     this.userService.addUserInfo({
       name: this.username,
-      idc: 'fuck123',
+      idc: 'test123',
       phoneNum: this.username,
       password: this.password,
       address: ''
@@ -94,11 +94,15 @@ export class RegisterComponent implements OnInit {
           that.stepper.next();
         } else {
           console.warn(res);
+          that.secondHelpMsg = '失败请重试!';
           setTimeout(() => that.isSecondLoading = false, 1000);
+          setTimeout(() => that.secondHelpMsg = '', 1500);
         }
       } catch (e) {
         console.warn(e);
+        that.secondHelpMsg = '网络异常!';
         setTimeout(() => that.isSecondLoading = false, 1000);
+        setTimeout(() => that.secondHelpMsg = '', 1500);
       }
     });
   }

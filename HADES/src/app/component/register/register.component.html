@@ -113,3 +113,11 @@
     </mat-horizontal-stepper>
   </mat-card>
 </div>
+
+<div [hidden]="secondHelpMsg === ''">
+  <div class="weui-mask_transparent"></div>
+  <div class="weui-toast">
+    <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+    <p class="weui-toast__content">{{secondHelpMsg}}</p>
+  </div>
+</div>

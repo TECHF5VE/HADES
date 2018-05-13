@@ -49,10 +49,12 @@ export class LoginComponent implements OnInit {
           } else {
             console.warn(res);
             setTimeout(() => that.isLoading = false, 1000);
+            this.alertError('用户名或密码错误！');
           }
         } catch (e) {
           console.warn(e);
           setTimeout(() => that.isLoading = false, 1000);
+          this.alertError('网络连接异常！');
         }
       });
   }
