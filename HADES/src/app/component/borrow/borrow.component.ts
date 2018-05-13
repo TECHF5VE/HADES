@@ -80,10 +80,12 @@ export class BorrowComponent implements OnInit {
           const max = _.maxBy(g, e => e.sequanceID);
           max['remain'] = 0;
           const min = _.minBy(g, e => e.sequanceID);
+          max.id = min.id;
           // const max = g.sort((a, b) => a.sequanceID < b.sequanceID ? -1 : 1)[0];
           // if (max.validation === 1 && max.fundRaiserRest > 0) {
           // arr.push(max);
-          const result = tranDatas.filter(item => item['belongTo'] === min['id']);
+          console.log(max);
+          const result = tranDatas.filter(item => item['belongTo'] === min['id'] && item['to'] === max['fundRaiserID']);
           console.log(result);
           if (result.length > 0) {
             const sum = result.map(item => item['amount']).reduce((A, B) => A + B);
@@ -107,6 +109,8 @@ export class BorrowComponent implements OnInit {
   debitState(pojo: DebitInfoPojo) {
     if (pojo.validation === 0) {
       return '借款失败';
+    } else if (pojo.repaid === 1) {
+      return '已还款';
     } else if (pojo.validation === 1 && pojo.fundRaiserRest === 0) {
       return '成功借款';
     } else if (pojo.validation === 1 && pojo['fundRaiserRest'] === pojo['remain']) {
@@ -114,6 +118,15 @@ export class BorrowComponent implements OnInit {
     } else {
       return '正在借款';
     }
+  }
+
+  formatTime(time) {
+    try {
+      return new Date(Number(time)).toDateString();
+    } catch (e) {
+      console.log(e);
+    }
+    return time;
   }
 
   openModal(template: TemplateRef<any>) {
@@ -134,7 +147,7 @@ export class BorrowComponent implements OnInit {
             console.log('借款成功!');
             that.amount = null;
             this.modalRef.hide();
-            // TODO update list
+            // update list
             that.update();
           } else {
             console.log(res);
@@ -145,8 +158,38 @@ export class BorrowComponent implements OnInit {
       });
   }
 
-  pay(debit: DebitInfoPojo) {
-    // TODO
+  async pay(debit: DebitInfoPojo) {
+    const result = await this.transacationService.fetchAllTransacation().toPromise();
+    const data = result['data'] as DebitInfoPojo[];
+    console.log(debit);
+    console.log(data);
+    const total = debit.fundRaiserRest;
+    const trans = data.filter(item => item['belongTo'] === debit.id);
+    console.log(trans);
+    if (trans.length > 0) {
+      const group = _.groupBy(trans, 'from');
+      const values = Object.values(group);
+      console.log(group);
+      const time = new Date().getTime(); // 当前时间戳
+      for (const g of values) {
+        const sum = _.sumBy(g, item => item['amount']);
+        console.log(sum);
+
+        const amount = (sum / total) * (1 + 0.006) * total *
+          Math.ceil((time - Number(debit.fundOvertimeTime) + 1000 * 60 * 60 * 12) / 86400000);
+        console.log(amount);
+
+        await this.transacationService.addTransacation(g[0]['from'], amount, debit.id).toPromise();
+      }
+      await this.debitService.raiseDebit(debit.fundRaiserID, 0, debit.fundOvertimeTime, 1, 1)
+        .subscribe(res => {
+          console.log(res);
+        });
+      // update
+      this.update();
+    } else {
+      return;
+    }
   }
 
 }

@@ -124,6 +124,10 @@ export class PoolComponent implements OnInit {
 
   async lendMoney(pojo: DebitInfoPojo, amount: number) {
     await this.updateDebit(pojo);
+    if (pojo.fundRaiserRest === 0) {
+      _.remove(this.displayList, pojo);
+      return;
+    }
     await this.transacationService.addTransacation(pojo.fundRaiserID,
       amount < pojo.fundRaiserRest ? amount : pojo.fundRaiserRest, pojo.id).toPromise();
 

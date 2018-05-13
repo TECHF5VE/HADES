@@ -3,6 +3,8 @@ import { DebitInfoPojo, TransacationPojo } from '../../entities/block-pojo';
 import { DebitService } from '../../services/debit.service';
 import { TransacationService } from '../../services/transacation.service';
 
+import * as _ from 'lodash';
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -74,24 +76,46 @@ export class AdminComponent implements OnInit {
       try {
         console.log(res);
         if (res && res['success'] && res['data']) {
-          const debits = res['data'] as DebitInfoPojo[];
-          that.debitInfos = [...debits];
-          const tmp = [];
+          const group = _.groupBy(res['data'], 'fundOvertimeTime');
           const result = [];
-          const debTime = debits.map(item => item.fundOvertimeTime);
-          for (let i = 0, len = debTime.length; i < len; i++) {
-            if (tmp.indexOf(debTime[i]) < 0) {
-              tmp.push(debTime[i]);
-              result.push(debits[i]);
+          const values = Object.values(group);
+          for (const g of values) {
+            const max = _.maxBy(g, e => e.sequanceID);
+            const min = _.minBy(g, e => e.sequanceID);
+            console.log(max);
+            if (max['repaid'] !== 1) {
+              result.push(min);
             }
           }
-          console.log(result);
+
+          const debits = res['data'] as DebitInfoPojo[];
+          that.debitInfos = [...debits];
+          // const tmp = [];
+          // const result = [];
+          // const debTime = debits.map(item => item.fundOvertimeTime);
+          // for (let i = 0, len = debTime.length; i < len; i++) {
+          //   if (tmp.indexOf(debTime[i]) < 0) {
+          //     tmp.push(debTime[i]);
+          //     result.push(debits[i]);
+          //   }
+          // }
+          // console.log(result);
           that.debits = result;
+          console.log(result);
         }
       } catch (e) {
         console.warn(e);
       }
     });
+  }
+
+  formatTime(time) {
+    try {
+      return new Date(Number(time)).toDateString();
+    } catch (e) {
+      console.log(e);
+    }
+    return time;
   }
 
   getDebitState(debit: DebitInfoPojo): string {

@@ -16,10 +16,10 @@
         <td>{{i+1}}</td>
         <td>{{debit.fundRaiserRest}}</td>
         <td>{{debit['remain']}}</td>
-        <td>{{debit.fundOvertimeTime}}</td>
+        <td>{{formatTime(debit.fundOvertimeTime)}}</td>
         <td>{{this.debitState(debit)}}</td>
         <td>
-          <button mat-raised-button (click)="pay(debit);">还款</button>
+          <button mat-raised-button (click)="pay(debit);" *ngIf="this.debitState(debit) === '成功借款'">还款</button>
         </td>
       </tr>
       </tbody>
