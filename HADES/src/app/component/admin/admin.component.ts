@@ -15,6 +15,8 @@ export class AdminComponent implements OnInit {
   debits: DebitInfoPojo[] = [];
   trans: TransacationPojo[] = [];
 
+  debitInfos: DebitInfoPojo[] = [];
+
   constructor(private debitService: DebitService,
               private transacationService: TransacationService) {
   }
@@ -73,14 +75,18 @@ export class AdminComponent implements OnInit {
         console.log(res);
         if (res && res['success'] && res['data']) {
           const debits = res['data'] as DebitInfoPojo[];
+          that.debitInfos = [...debits];
           const tmp = [];
+          const result = [];
           const debTime = debits.map(item => item.fundOvertimeTime);
           for (let i = 0, len = debTime.length; i < len; i++) {
             if (tmp.indexOf(debTime[i]) < 0) {
               tmp.push(debTime[i]);
-              that.debits.push(debits[i]);
+              result.push(debits[i]);
             }
           }
+          console.log(result);
+          that.debits = result;
         }
       } catch (e) {
         console.warn(e);
@@ -88,9 +94,18 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // TODO
-  getDebitState(): string {
-    return '';
+  getDebitState(debit: DebitInfoPojo): string {
+    if (this.debitInfos.length > 0) {
+      const result = this.debitInfos.filter(item => item.fundOvertimeTime === debit.fundOvertimeTime);
+      if (result.length > 0) {
+        const len = result.length;
+        if (result[len - 1].fundRaiserRest === 0) {
+          return '待还';
+        }
+        return '待借';
+      }
+    }
+    return 'UnKnown';
   }
 
   initInform() {

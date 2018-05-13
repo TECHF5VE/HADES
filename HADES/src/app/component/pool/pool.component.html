@@ -4,23 +4,22 @@
       <div echarts [options]="options"></div>
     </mat-card>
   </div>-->
-  <div class="col-md-4">
+  <!--<div class="col-md-4">
     <mat-card>
       <mat-card-title class="text-center">我的财产</mat-card-title>
       <mat-card-content>
-        <!--TODO 财产-->
+        &lt;!&ndash;TODO 财产&ndash;&gt;
       </mat-card-content>
     </mat-card>
-  </div>
+  </div>-->
   <div class="col-md-12" style="margin-top: 30px;">
     <mat-card>
-      <!--FIXME-->
       <table class="table">
         <thead>
         <tr>
           <th>#</th>
           <th>贷款人</th>
-          <th>剩余需借</th>
+          <th>待借</th>
           <th>操作</th>
         </tr>
         </thead>
@@ -29,7 +28,7 @@
           <th>{{i + 1}}</th>
           <th>{{item.fundRaiserID}}</th>
           <th>{{item.fundRaiserRest}}</th>
-          <th><button class="btn btn-success" (click)="lendMoney(item, 100)">放款</button></th>                 
+          <th><button class="btn btn-success" (click)="lendMoney(item, 100)">放款</button></th>
         </tr>
         </tbody>
       </table>

@@ -4,17 +4,23 @@
       <thead>
       <tr>
         <th>#</th>
-        <th>amount</th>
-        <th>time</th>
-        <th>status</th>
+        <th>金额</th>
+        <th>已借</th>
+        <th>时间</th>
+        <th>状态</th>
+        <th>操作</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let debit of debits; let i = index;">
         <td>{{i+1}}</td>
         <td>{{debit.fundRaiserRest}}</td>
+        <td>{{debit['remain']}}</td>
         <td>{{debit.fundOvertimeTime}}</td>
         <td>{{this.debitState(debit)}}</td>
+        <td>
+          <button mat-raised-button (click)="pay(debit);">还款</button>
+        </td>
       </tr>
       </tbody>
     </table>

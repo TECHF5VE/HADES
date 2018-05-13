@@ -62,20 +62,41 @@ export class PoolComponent implements OnInit {
     //   ]
     // };
 
+    await this.update();
+  }
 
+  async update() {
     try {
       this.displayList = [];
 
-      const result: any = await this.debiteService.fetchDebit().toPromise();
-      const json = result.data;
-      const group = _.groupBy(result.data, 'fundOvertimeTime');
+      // const result: any = await this.debiteService.fetchDebit().toPromise();
+      const result: any = await this.debiteService.fetchAllDebit().toPromise();
+      const trans = await this.transacationService.fetchAllTransacation().toPromise();
+      console.log(trans);
+      const user = JSON.parse(sessionStorage.getItem('user'))['name'] || '';
+      const jsons = result.data.filter(item => item['fundRaiserID'] !== user);
+      // const jsons = result.data;
+      // const group = _.groupBy(result.data, 'fundOvertimeTime');
+      const group = _.groupBy(jsons, 'fundOvertimeTime');
 
       const values = Object.values(group);
 
       const arr: DebitInfoPojo[] = [];
       for (const g of values) {
-        const max = _.maxBy(g, e => e.sequanceID);
+        let max = _.maxBy(g, e => e.sequanceID);
         // const max = g.sort((a, b) => a.sequanceID < b.sequanceID ? -1 : 1)[0];
+        console.log(g);
+        const datas = trans['data'].filter(item => item['belongTo'] === g[0].id);
+        console.log(datas);
+        let gett = 0;
+        if (datas.length > 0) {
+          gett = datas.map(item => item['amount']).reduce((A, B) => {
+            return A + B;
+          });
+        }
+        console.log(gett);
+        max['total'] = g[0]['fundRaiserRest'];
+        max.fundRaiserRest = g[0]['fundRaiserRest'] - gett;
         if (max.validation === 1 && max.fundRaiserRest > 0) {
           arr.push(max);
         }
@@ -85,18 +106,32 @@ export class PoolComponent implements OnInit {
     } catch (e) {
       console.log(e);
     }
+  }
 
+  async updateDebit(pojo: DebitInfoPojo) {
+    // 更新当前debit
+    const result = await this.transacationService.fetchAllTransacation().toPromise();
+    const data = result['data'];
+    const trans = data.filter(item => item['belongTo'] === pojo.id);
+    let gett = 0;
+    if (trans.length > 0) {
+      gett = trans.map(item => item['amount']).reduce((A, B) => {
+        return A + B;
+      });
+    }
+    pojo['fundRaiserRest'] = Number(pojo['total']) - gett;
   }
 
   async lendMoney(pojo: DebitInfoPojo, amount: number) {
+    await this.updateDebit(pojo);
     await this.transacationService.addTransacation(pojo.fundRaiserID,
-       amount < pojo.fundRaiserRest ? amount : pojo.fundRaiserRest, pojo.id).toPromise();
+      amount < pojo.fundRaiserRest ? amount : pojo.fundRaiserRest, pojo.id).toPromise();
 
     if (pojo.fundRaiserRest <= amount) {
       await this.debiteService.raiseDebit(pojo.fundRaiserID, 0, pojo.fundOvertimeTime, 1, 0)
-      .subscribe(res => {
-        console.log(res);
-      });
+        .subscribe(res => {
+          console.log(res);
+        });
       _.remove(this.displayList, pojo);
     } else {
       pojo.fundRaiserRest -= amount;

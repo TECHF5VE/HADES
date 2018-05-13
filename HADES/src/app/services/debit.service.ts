@@ -57,6 +57,16 @@ export class DebitService {
     );
   }
 
+  fetchAllDebit(): Observable<DebitInfoPojo[]> {
+    const that = this;
+    return this.http.post(API.Query, {
+      func: 'queryAllDebit',
+    }, httpOptions).pipe(
+      tap((res: DebitInfoPojo[]) => this.log(`fetchDebit ${res[0]}`)),
+      catchError(this.handleError<DebitInfoPojo[]>('fetchDebit', []))
+    );
+  }
+
   raiseDebit(fundRaiserID: string, fundRaiseRest: number, fundOvertimeTime: string, validation: number, repaid: number): Observable<any> {
     const that = this;
     return this.http.post(API.Invoke, {

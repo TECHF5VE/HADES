@@ -26,8 +26,8 @@ const adminRoutes: Routes = [
 ];
 
 const appRoutes: Routes = [
-  { path: '', component: IndexContainerComponent, children: indexRoutes },
   { path: 'admin', component: AdminContainerComponent, children: adminRoutes },
+  { path: '', component: IndexContainerComponent, children: indexRoutes },
   { path: '**', redirectTo: 'index', pathMatch: 'full' }
 ];
 
